@@ -15,7 +15,8 @@ namespace SignalRClientDesktopApp
     public partial class SignalRClientForm : Form
     {
         HubConnection hubConnection;
-        private const string signalRServerUrl = "https://localhost:44338/message";
+        //private string signalRServerUrl = "http://smrhjustedu-003-site5.ctempurl.com/chatHub?userId=100100";
+        private const string signalRServerUrl = "https://localhost:7137/chatHub?userId=100100&access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJKV1RTZXJ2aWNlQWNjZXNzVG9rZW4iLCJqdGkiOiJkODc5MTliMi1hYjc3LTRjZDItYjMzZC0zYzU4ZDIzMTYwMWQiLCJpYXQiOjE3MDY5NTExOTgsIm5hbWUiOiJhZG1pbiIsIlVzZXJJZCI6IjEwMDEwMCIsImVtYWlsIjoiYWxhbWluLmNzZS5qdXN0aWFuQGdtYWlsLmNvbSIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcwNjk1MTE5OCwiZXhwIjoxNzA3MDM3NTk4fQ.gJ7f8EIixYWgdcMo171YJ-Plnyv81pvLdlydNJqk0Nc";
         public SignalRClientForm()
         {
             InitializeComponent();
@@ -67,7 +68,7 @@ namespace SignalRClientDesktopApp
 
         private void ReceiveMessage()
         {
-            hubConnection.On<MessageHub>("BroadcastMessageAsync", (message) =>
+            hubConnection.On("ReceiveMessage", (Models.Message message) =>
             {
                 this.Invoke((Action)(() =>
                 {
@@ -79,9 +80,10 @@ namespace SignalRClientDesktopApp
         private async void SignalRClientForm_Load(object sender, EventArgs e)
         {
             await hubConnection.StartAsync();
-            this.Invoke((Action)(() =>
+            this.Invoke((Action)(async () =>
             {
                 this.connection_status.Text = "Connected";
+                await hubConnection.InvokeAsync("JoinGroup", "Benapole");
             }));
         }
     }

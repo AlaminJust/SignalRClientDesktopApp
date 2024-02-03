@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SignalRClientDesktopApp.Models
+﻿namespace SignalRClientDesktopApp.Models
 {
-    public class MessageHub
+    public class Message
     {
-        public string? message { get; set; }
         public string? userName { get; set; }
+        public string? message { get; set; }
+        public string? reciver { get; set; }
     }
 }
